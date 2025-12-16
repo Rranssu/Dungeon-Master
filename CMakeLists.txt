@@ -11,11 +11,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(raylib REQUIRED)
 
+find_package(nlohmann_json REQUIRED)
+
 add_executable(DungeonMaster
     src/main.cpp
+    src/components/game.cpp
 )
 
-target_link_libraries(DungeonMaster PRIVATE raylib)
+target_link_libraries(DungeonMaster
+    PRIVATE raylib
+    PRIVATE nlohmann_json::nlohmann_json
+)
 
 if(UNIX AND NOT APPLE)
     target_link_libraries(DungeonMaster PRIVATE m pthread dl rt X11)

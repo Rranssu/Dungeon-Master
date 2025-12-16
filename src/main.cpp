@@ -1,16 +1,22 @@
-#include "raylib.h"
+#include <iostream>
+#include "headers/game.hpp"
 
 int main() {
-    InitWindow(1280, 720, "D&D GM Engine");
-    SetTargetFPS(60);
+    Game game("data/gameDat.json");
 
-    while (!WindowShouldClose()) {
-        BeginDrawing();
-        ClearBackground(DARKGRAY);
-        DrawText("Welcome, Dungeon Master!", 420, 360, 20, RAYWHITE);
-        EndDrawing();
+    std::cout << "Game: " << game.title << " by " << game.creator << "\n";
+
+    if (!game.loadChapters()) {
+        std::cerr << "Error loading chapters.\n";
+        return 1;
     }
 
-    CloseWindow();
+    std::cout << "Chapters loaded: " << game.chapters.size() << "\n";
+
+    // Example access to first chapter
+    auto& firstChapter = game.chapters[0].data;
+    std::cout << "First scene text: " 
+              << firstChapter["scenes"]["intro"]["text"] << "\n";
+
     return 0;
 }
